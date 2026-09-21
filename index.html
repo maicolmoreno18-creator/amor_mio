@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0a0e2a" />
+  <title>Para Gina Marcela 💛</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Lienzo 3D -->
+  <canvas id="scene"></canvas>
+
+  <!-- Aviso: gira el teléfono -->
+  <div id="rotate-overlay" class="overlay">
+    <div class="rotate-content">
+      <div class="phone-rotate">
+        <div class="phone"></div>
+        <div class="rotate-arrow">🔄</div>
+      </div>
+      <h1 id="rotate-title">Gira tu celular horizontalmente</h1>
+      <p id="rotate-sub">Quiero mostrarte algo...</p>
+    </div>
+  </div>
+
+  <!-- Pantalla de carga -->
+  <div id="loading-overlay" class="overlay hidden">
+    <div class="loading-content">
+      <div class="loader"></div>
+      <p>Preparando algo especial...</p>
+    </div>
+  </div>
+
+  <!-- Pantalla de inicio -->
+  <div id="start-overlay" class="overlay hidden">
+    <div class="start-content">
+      <h1>Tengo algo especial para ti...</h1>
+      <p>Pero primero tengo que construirlo.</p>
+      <button id="start-btn" class="btn-primary">Comenzar 💙</button>
+    </div>
+  </div>
+
+  <!-- Narrativa cinematográfica (texto grande centrado) -->
+  <div id="narrative" class="narrative hidden">
+    <p id="narrative-text"></p>
+  </div>
+
+  <!-- Aviso de exploración -->
+  <div id="explore-hint" class="hint hidden">Ahora puedes explorar. 🌼</div>
+
+  <!-- Texto discreto al seleccionar una flor -->
+  <div id="flower-note" class="flower-note hidden">Esta también es para ti. 💛</div>
+
+  <!-- UI mínima durante la exploración -->
+  <div id="ui" class="ui hidden">
+    <button id="field-view-btn" class="btn-corner">Vista del campo</button>
+    <button id="sound-btn" class="btn-icon" aria-label="Sonido">🔇</button>
+    <button id="message-btn" class="btn-corner accent hidden">Tengo algo más que decirte 💛</button>
+  </div>
+
+  <!-- Tarjeta con el mensaje final -->
+  <div id="message-overlay" class="overlay message-overlay hidden">
+    <div class="card">
+      <div class="card-scroll">
+        <p>Para mi esposita, Gina Marcela 💛</p>
+        <p>Hoy es el día de las flores amarillas y quizás no pude comprarte una como hubiera querido.</p>
+        <p>Pero no quería dejar pasar este día sin darte un detalle.</p>
+        <p>Así que hice este pequeño campo para ti.</p>
+        <p>Puede que no puedas caminar entre estas flores ni sostenerlas entre tus manos, pero cada una representa algo que sí puedo darte: mi tiempo, mi dedicación y todo mi amor.</p>
+        <p>Gracias por estar a mi lado, por compartir tu vida conmigo y por hacer que mis días sean más bonitos.</p>
+        <p>No importa cuánto tenga o cuánto me falte, siempre voy a buscar una manera de hacerte sonreír.</p>
+        <p>Te amo, mi esposita. 💛</p>
+        <p class="sign">— George</p>
+      </div>
+      <button id="close-message-btn" class="btn-primary small">Volver al campo</button>
+    </div>
+  </div>
+
+  <!-- Tarjeta del cartel del campo -->
+  <div id="sign-overlay" class="overlay message-overlay hidden">
+    <div class="card sign-card">
+      <div class="card-scroll">
+        <p>🌼</p>
+        <p>Este campo de flores es propiedad de la mujer más hermosa del mundo,</p>
+        <p class="sign-name">Gina Marcela Díaz Tumay</p>
+        <p class="sign-heart">💛</p>
+      </div>
+      <button id="close-sign-btn" class="btn-primary small">Volver al campo</button>
+    </div>
+  </div>
+
+  <!-- Audio ambiental (opcional, no autoplay) -->
+  <audio id="ambient-audio" loop preload="none"></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

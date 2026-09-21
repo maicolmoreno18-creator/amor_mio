@@ -1,0 +1,365 @@
+/* ===========================================================
+   Campo de flores para Gina Marcela
+   Diseño mobile-first, landscape, sin scroll.
+   Paleta: azul/morado (digital) + amarillo dorado (flores)
+   =========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+:root {
+  --blue: #4d6bff;
+  --blue-deep: #0a0e2a;
+  --purple: #a25bff;
+  --gold: #ffcf3f;
+  --gold-soft: #ffe08a;
+  --ink: #f5f3ff;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #05071a;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+  color: var(--ink);
+  position: fixed;
+  inset: 0;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+/* ---------------- Overlays base ---------------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5vmin;
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(80, 60, 180, 0.35), transparent 60%),
+    linear-gradient(160deg, #0a0e2a 0%, #140a35 55%, #1a0f3d 100%);
+  transition: opacity 0.6s ease;
+}
+
+.overlay.hidden,
+.hint.hidden,
+.flower-note.hidden,
+.narrative.hidden,
+.ui .hidden,
+.ui.hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* ---------------- Aviso de rotación ---------------- */
+.rotate-content h1 {
+  font-size: clamp(20px, 6vw, 34px);
+  font-weight: 600;
+  margin: 24px 0 10px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.rotate-content p {
+  font-size: clamp(14px, 4vw, 18px);
+  opacity: 0.8;
+}
+
+.phone-rotate {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.phone {
+  width: 42px;
+  height: 76px;
+  border: 3px solid var(--blue);
+  border-radius: 10px;
+  box-shadow: 0 0 22px rgba(77, 107, 255, 0.6);
+  animation: rotatePhone 2.4s ease-in-out infinite;
+}
+.rotate-arrow {
+  position: absolute;
+  bottom: -6px;
+  right: -2px;
+  font-size: 26px;
+  animation: spinArrow 2.4s ease-in-out infinite;
+}
+@keyframes rotatePhone {
+  0%, 20% { transform: rotate(0deg); }
+  50%, 70% { transform: rotate(-90deg); }
+  100% { transform: rotate(-90deg); }
+}
+@keyframes spinArrow {
+  0%, 20% { transform: rotate(0deg); opacity: 0.6; }
+  50% { transform: rotate(-90deg); opacity: 1; }
+  100% { transform: rotate(-90deg); opacity: 0.6; }
+}
+
+/* ---------------- Loading ---------------- */
+.loading-content p { margin-top: 18px; opacity: 0.8; letter-spacing: 0.4px; }
+.loader {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto;
+  border: 4px solid rgba(162, 91, 255, 0.25);
+  border-top-color: var(--purple);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------------- Pantalla de inicio ---------------- */
+.start-content { max-width: 560px; }
+.start-content h1 {
+  font-size: clamp(22px, 6.5vw, 40px);
+  font-weight: 600;
+  line-height: 1.2;
+  background: linear-gradient(90deg, #8fa4ff, var(--purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.start-content p {
+  margin: 14px 0 30px;
+  font-size: clamp(14px, 4vw, 19px);
+  opacity: 0.82;
+}
+
+/* ---------------- Botones ---------------- */
+.btn-primary {
+  font-size: clamp(15px, 4.2vw, 19px);
+  font-weight: 600;
+  color: #fff;
+  padding: 14px 34px;
+  border: none;
+  border-radius: 40px;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  box-shadow: 0 8px 30px rgba(90, 80, 220, 0.5);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.btn-primary:active { transform: scale(0.95); }
+.btn-primary.small { padding: 11px 26px; font-size: 15px; margin-top: 16px; }
+
+/* ---------------- Narrativa cinematográfica ---------------- */
+.narrative {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 6vw 9vh;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+.narrative p {
+  font-size: clamp(20px, 5.5vw, 40px);
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.7), 0 0 40px rgba(120, 90, 255, 0.35);
+  max-width: 900px;
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+/* ---------------- Hints discretos ---------------- */
+.hint {
+  position: fixed;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 16;
+  background: rgba(10, 14, 42, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: clamp(13px, 3.6vw, 16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: opacity 0.8s ease;
+}
+
+.flower-note {
+  position: fixed;
+  top: 16%;
+  left: 50%;
+  z-index: 16;
+  color: #fff;
+  font-size: clamp(20px, 6vw, 38px);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 10px 26px;
+  border-radius: 40px;
+  white-space: nowrap;
+  background: linear-gradient(90deg, rgba(255, 190, 60, 0.28), rgba(255, 150, 200, 0.22));
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55), 0 0 26px rgba(255, 200, 120, 0.55);
+  box-shadow: 0 6px 30px rgba(255, 180, 90, 0.25);
+  transform: translateX(-50%);
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+/* la nota nace, sube flotando y se desvanece */
+@keyframes floatNote {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(18px) scale(0.85); }
+  15%  { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  75%  { opacity: 1; transform: translateX(-50%) translateY(-22px) scale(1); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-46px) scale(1.02); }
+}
+
+/* ---------------- UI de exploración ---------------- */
+.ui { position: fixed; inset: 0; z-index: 12; pointer-events: none; }
+.ui > * { pointer-events: auto; }
+
+.btn-corner {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 14px);
+  left: calc(env(safe-area-inset-left, 0px) + 14px);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  padding: 9px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(10, 14, 42, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+.btn-corner:active { transform: scale(0.94); }
+
+.btn-corner.accent {
+  left: auto;
+  right: calc(env(safe-area-inset-right, 0px) + 14px);
+  top: auto;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  color: #2a1b00;
+  background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+  border: none;
+  box-shadow: 0 6px 22px rgba(255, 190, 60, 0.45);
+  font-weight: 600;
+}
+
+.btn-icon {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 14px);
+  right: calc(env(safe-area-inset-right, 0px) + 14px);
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(10, 14, 42, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.btn-icon:active { transform: scale(0.9); }
+
+/* ---------------- Tarjeta del mensaje final ---------------- */
+.message-overlay {
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(255, 200, 80, 0.18), transparent 55%),
+    linear-gradient(160deg, rgba(8, 10, 30, 0.92), rgba(20, 12, 45, 0.94));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.card {
+  width: min(92vw, 620px);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 24px 20px;
+  border-radius: 22px;
+  background: linear-gradient(165deg, #fffaf0, #fff4de);
+  color: #3a2a10;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 205, 100, 0.5);
+  text-align: left;
+}
+.card-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 6px;
+}
+.card p {
+  font-size: clamp(14px, 3.6vw, 17px);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+.card p:first-child {
+  font-size: clamp(17px, 4.4vw, 21px);
+  font-weight: 700;
+  color: #b8860b;
+}
+.card .sign {
+  text-align: right;
+  font-style: italic;
+  font-weight: 600;
+  color: #a86b00;
+  margin-top: 6px;
+}
+.card .btn-primary {
+  align-self: center;
+  background: linear-gradient(90deg, #e6a400, #ffcf3f);
+  box-shadow: 0 8px 24px rgba(220, 160, 30, 0.5);
+  color: #3a2a10;
+}
+
+/* ---------------- Portrait: forzar aviso de rotación ---------------- */
+@media (orientation: portrait) {
+  #rotate-overlay { display: flex !important; opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+}
+
+/* Pantallas muy bajas en landscape: compactar textos */
+@media (orientation: landscape) and (max-height: 380px) {
+  .narrative { padding-bottom: 6vh; }
+  .start-content p { margin: 10px 0 20px; }
+}
+
+/* ---------------- Tarjeta del cartel del campo ---------------- */
+.sign-card { text-align: center; }
+.sign-card .card-scroll { padding-right: 0; }
+.sign-card p:first-child { font-size: 40px; color: inherit; font-weight: 400; }
+.sign-card p { font-size: clamp(16px, 4.4vw, 22px); line-height: 1.5; color: #4a3416; }
+.sign-card .sign-name {
+  font-size: clamp(22px, 6vw, 34px);
+  font-weight: 800;
+  margin: 10px 0;
+  background: linear-gradient(90deg, #d98a00, #ff9d00);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.sign-card .sign-heart { font-size: 30px; margin-top: 4px; }
