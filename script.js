@@ -1784,6 +1784,8 @@
       setTimeout(() => E.hide(D.exploreHint), 4500);
       // ofrecer el mensaje final tras unos segundos explorando
       setTimeout(() => E.show(D.messageBtn), 9000);
+      // activar el monitor de rendimiento (auto-ajuste solo si va lento)
+      if (E.MODULES.perf) E.MODULES.perf.start();
     },
 
     // ---- volver a vista del campo ----
@@ -1971,6 +1973,71 @@
 
   btn.addEventListener('click', () => setOn(!on));
   E.MODULES.music = { setOn };
+})();
+
+/* ============================================================
+   MÓDULO: MONITOR DE RENDIMIENTO (auto-ajuste de calidad)
+   Si el FPS promedio baja de forma sostenida, reduce la carga
+   por pasos (barato y reversible). No interrumpe la experiencia.
+   ============================================================ */
+(function () {
+  const E = window.__EXP__;
+
+  E.MODULES.perf = {
+    frames: 0,
+    accum: 0,          // segundos acumulados en la ventana
+    lowStreak: 0,      // ventanas seguidas por debajo del umbral
+    step: 0,           // nivel de reducción aplicado (0 = ninguno)
+    maxStep: 3,
+    active: false,     // solo mide durante exploración
+    LOW_FPS: 40,       // por debajo de esto se considera "lento"
+    WINDOW: 1.0,       // tamaño de la ventana de medición (s)
+    STREAK_NEEDED: 3,  // ventanas lentas seguidas antes de actuar
+
+    start() { this.active = true; this.frames = 0; this.accum = 0; this.lowStreak = 0; },
+
+    tick(dt) {
+      if (!this.active || this.step >= this.maxStep) return;
+      this.frames++;
+      this.accum += dt;
+      if (this.accum < this.WINDOW) return;
+
+      const fps = this.frames / this.accum;
+      this.frames = 0;
+      this.accum = 0;
+
+      if (fps < this.LOW_FPS) {
+        this.lowStreak++;
+        if (this.lowStreak >= this.STREAK_NEEDED) {
+          this.reduce();
+          this.lowStreak = 0;
+        }
+      } else {
+        this.lowStreak = 0; // se recuperó; no seguir bajando
+      }
+    },
+
+    // reducciones escalonadas, de la más barata/invisible a la más notoria
+    reduce() {
+      this.step++;
+      const r = E.renderer;
+      if (this.step === 1) {
+        // bajar resolución de render (gran ganancia, poco impacto visual)
+        const cur = r.getPixelRatio();
+        r.setPixelRatio(Math.max(1, cur * 0.75));
+      } else if (this.step === 2) {
+        // reducir el pasto (lo más costoso de la escena)
+        const g = E.MODULES.scatter && E.MODULES.scatter.grassMesh;
+        if (g) g.count = Math.floor(g.count * 0.5);
+      } else if (this.step === 3) {
+        // desactivar sombras y bajar aún más la resolución
+        r.shadowMap.enabled = false;
+        r.setPixelRatio(1);
+        const g = E.MODULES.scatter && E.MODULES.scatter.grassMesh;
+        if (g) g.count = Math.floor(g.count * 0.5);
+      }
+    }
+  };
 })();
 
 /* ============================================================
